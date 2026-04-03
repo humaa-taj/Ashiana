@@ -9,15 +9,15 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       imports: [ConfigModule],
       useFactory: (config: ConfigService) => ({
         type: 'mssql',
-        host: config.get('DATABASE_HOST'),
+        host: 'localhost',
         port: parseInt(config.get<string>('DATABASE_PORT') ?? '1433'),
+        username: config.get('DATABASE_USER'),
+        password: config.get('DATABASE_PASSWORD'),
         database: config.get('DATABASE_NAME'),
         options: {
           encrypt: false,
           trustServerCertificate: true,
-        },
-        extra: {
-          trustedConnection: true,
+          enableArithAbort: true,
         },
         synchronize: false,
         autoLoadEntities: true,
